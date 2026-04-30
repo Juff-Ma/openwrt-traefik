@@ -1,6 +1,0 @@
-#!/bin/sh
-
-# Disable auto-start vector by default
-ubus call service delete vector
-
-exit 0

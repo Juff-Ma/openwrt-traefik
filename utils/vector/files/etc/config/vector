@@ -1,6 +1,0 @@
-config vector 'main'
-	option config_file '/etc/vector/config.yml'
-	option watch_config '1'
-	option verbose '0'
-	option log_stderr '1'
-	option log_stdout '1'
