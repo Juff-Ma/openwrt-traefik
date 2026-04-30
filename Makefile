@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=traefik
 PKG_VERSION:=3.6.15
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/traefik/traefik/tar.gz/v$(PKG_VERSION)?
@@ -38,7 +38,7 @@ endef
 
 define Package/$(PKG_NAME)/conffiles
 /etc/config/$(PKG_NAME)
-/etc/$(PKG_NAME)/config.yml
+/etc/$(PKG_NAME)/$(PKG_NAME).yml
 endef
 
 define Package/$(PKG_NAME)/install
@@ -52,7 +52,7 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_BIN) ./files/$(PKG_NAME).init $(1)/etc/init.d/$(PKG_NAME)
 
 	$(INSTALL_DIR) $(1)/etc/$(PKG_NAME)
-	$(INSTALL_CONF) ./files/$(PKG_NAME).yml $(1)/etc/$(PKG_NAME)/config.yml
+	$(INSTALL_CONF) ./files/$(PKG_NAME).yml $(1)/etc/$(PKG_NAME)
 endef
 
 $(eval $(call GoBinPackage,$(PKG_NAME)))
