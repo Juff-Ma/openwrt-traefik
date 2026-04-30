@@ -1,0 +1,58 @@
+#!/bin/sh /etc/rc.common
+
+USE_PROCD=1
+START=95
+
+APP_PATH=/usr/sbin
+APP=traefik
+
+# I'm not sure if we need this,
+# but I'm using adguard as reference and they seem to do
+boot() {
+	TRAEFIK_BOOT=1
+	start "$@"
+}
+
+start_service() {
+	if [ -n "$TRAEFIK_BOOT" ]; then
+		# Do not start yet, wait for triggers
+		return 0
+	fi
+
+	local config_file
+	local std_err std_out
+	local traefik_enabled
+
+	# Launch service
+	config_load $APP
+
+	config_get_bool traefik_enabled "config" enabled 0
+	[ "$traefik_enabled" -ne 1 ] && return 0
+
+	config_get_bool std_out "config" log_stdout 1
+	config_get_bool std_err "config" log_stderr 1
+	config_get config_file "config" config_file /etc/$APP/config.yml
+
+	procd_open_instance $APP
+	procd_set_param command "$APP_PATH/$APP"
+
+	if [ -f "$config_file" ]; then
+		procd_append_param command --configfile="$config_file"
+	fi
+
+	procd_set_param respawn
+	procd_set_param stdout "$std_out"
+	procd_set_param stderr "$std_err"
+
+	procd_close_instance
+}
+
+service_triggers() {
+	procd_add_reload_trigger $APP
+
+	if [ -n "$TRAEFIK_BOOT" ]; then
+		# Wait for interfaces to be up before starting Traefik.
+		# Adguard says this prevents issues like https://github.com/openwrt/packages/issues/21868.
+		procd_add_raw_trigger 'interface.*.up' 5000 /etc/init.d/$APP restart
+	fi
+}
