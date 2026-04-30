@@ -1,19 +1,20 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=traefik
-PKG_VERSION:=2.10.7
-PKG_RELEASE:=$(AUTORELEASE)
+PKG_VERSION:=3.6.15
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/traefik/traefik/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=827624405d358c43b8793ae425200b493026b0b6e645b7a682abd3aa6e606213
+PKG_HASH:=0f74d4a27f262ef056c1a4d28072ab7edfc705803de01bbd3120d80cf96fac7b
 
-PKG_MAINTAINER:=icyleaf <icyleaf.cn@gmail.com>
+PKG_MAINTAINER:=Julian Rossbach <contact@juffma.de>
 PKG_LICENSE:=MIT
+PKG_LICENSE_FILES:=LICENSE.md
 
 PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
-PKG_USE_MIPS16:=0
+PKG_BUILD_FLAGS:=no-mips16
 
 GO_PKG:=github.com/traefik/traefik
 GO_PKG_LDFLAGS:=-s -w
