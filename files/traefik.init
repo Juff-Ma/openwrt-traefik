@@ -5,6 +5,7 @@ START=95
 
 APP_PATH=/usr/sbin
 APP=traefik
+PROG=$APP_PATH/$APP
 
 # I'm not sure if we need this,
 # but I'm using adguard as reference and they seem to do
@@ -19,9 +20,10 @@ start_service() {
 		return 0
 	fi
 
-	local config_file
+	local config_file working_directory
 	local std_err std_out
 	local traefik_enabled
+	local command
 
 	# Launch service
 	config_load $APP
@@ -32,13 +34,20 @@ start_service() {
 	config_get_bool std_out "config" log_stdout 1
 	config_get_bool std_err "config" log_stderr 1
 	config_get config_file "config" config_file /etc/$APP/$APP.yml
+	config_get working_directory "config" working_directory /run/$APP
 
 	procd_open_instance $APP
-	procd_set_param command "$APP_PATH/$APP"
+	command="$PROG"
 
 	if [ -f "$config_file" ]; then
-		procd_append_param command --configfile="$config_file"
+		command="$command --configfile=$config_file"
 	fi
+
+	procd_set_param command sh -c "
+		mkdir -p $working_directory
+		cd $working_directory
+		exec $command
+	"
 
 	procd_set_param respawn
 	procd_set_param stdout "$std_out"
