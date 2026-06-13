@@ -1,13 +1,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=traefik
-PKG_VERSION:=3.7.1
-PKG_RELEASE:=2
+PKG_VERSION:=3.7.5
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/traefik/traefik/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=ce88132d8c668a3b1515b43d0019e18c87a3cb3dd5b4d6772992294649b295e8
-
+PKG_HASH:=b843f693b138625e1aa0b172ab6ff9e51b0baf0379c1326fa64e254a0fed4677
 
 PKG_MAINTAINER:=Julian Rossbach <contact@juffma.de>
 PKG_LICENSE:=MIT
