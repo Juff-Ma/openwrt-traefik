@@ -1,0 +1,125 @@
+diff --git a/go.mod b/go.mod
+index 42ee72788..978362a76 100644
+--- a/go.mod
++++ b/go.mod
+@@ -127,6 +127,13 @@ require (
+ 
+ require github.com/go-acme/lego/v4 v4.35.2
+ 
++require (
++	github.com/ip2location/ip2location-go/v9 v9.7.1 // indirect
++	github.com/leprosus/golang-ttl-map v1.1.7 // indirect
++	github.com/maxlerebourg/simpleredis v1.0.12 // indirect
++	lukechampine.com/uint128 v1.3.0 // indirect
++)
++
+ require (
+ 	cloud.google.com/go/auth v0.20.0 // indirect
+ 	cloud.google.com/go/auth/oauth2adapt v0.2.8 // indirect
+@@ -171,6 +178,7 @@ require (
+ 	github.com/baidubce/bce-sdk-go v0.9.267 // indirect
+ 	github.com/benbjohnson/clock v1.3.5 // indirect
+ 	github.com/beorn7/perks v1.0.1 // indirect
++	github.com/bitrvmpd/traefik-plugin-rewrite-headers v0.0.1
+ 	github.com/blendle/zapdriver v1.3.1 // indirect
+ 	github.com/bodgit/gssapi v0.0.3 // indirect
+ 	github.com/bodgit/tsig v1.3.1 // indirect
+@@ -185,6 +193,9 @@ require (
+ 	github.com/coreos/go-semver v0.3.1 // indirect
+ 	github.com/cpuguy83/dockercfg v0.3.2 // indirect
+ 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
++	github.com/david-garcia-garcia/traefik-geoblock v1.1.4
++	github.com/david-garcia-garcia/traefik-modsecurity v1.7.5
++	github.com/david-garcia-garcia/traefik-realip v1.0.0-beta.3
+ 	github.com/deepmap/oapi-codegen v1.9.1 // indirect
+ 	github.com/desertbit/timer v0.0.0-20180107155436-c41aec40b27f // indirect
+ 	github.com/distribution/reference v0.6.0 // indirect
+@@ -277,6 +288,7 @@ require (
+ 	github.com/mailru/easyjson v0.9.1 // indirect
+ 	github.com/mattn/go-colorable v0.1.14 // indirect
+ 	github.com/mattn/go-isatty v0.0.22 // indirect
++	github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin v1.6.0
+ 	github.com/mimuret/golang-iij-dpf v0.9.1 // indirect
+ 	github.com/mitchellh/go-homedir v1.1.0 // indirect
+ 	github.com/mitchellh/go-ps v1.0.0 // indirect
+@@ -342,6 +354,7 @@ require (
+ 	github.com/shopspring/decimal v1.4.0 // indirect
+ 	github.com/softlayer/softlayer-go v1.2.1 // indirect
+ 	github.com/softlayer/xmlrpc v0.0.0-20200409220501-5f089df7cb7e // indirect
++	github.com/solution-libre/traefik-plugin-robots-txt v0.2.2
+ 	github.com/sony/gobreaker/v2 v2.4.0 // indirect
+ 	github.com/sourcegraph/conc v0.3.0 // indirect
+ 	github.com/spf13/afero v1.15.0 // indirect
+diff --git a/go.sum b/go.sum
+index 141677a62..3ce6b6d25 100644
+--- a/go.sum
++++ b/go.sum
+@@ -797,6 +797,8 @@ github.com/beorn7/perks v1.0.0/go.mod h1:KWe93zE9D1o94FZ5RNwFwVgaQK1VOXiVxmqh+Ce
+ github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=
+ github.com/beorn7/perks v1.0.1/go.mod h1:G2ZrVWU2WbWT9wwq4/hrbKbnv/1ERSJQ0ibhJ6rlkpw=
+ github.com/bgentry/speakeasy v0.1.0/go.mod h1:+zsyZBPWlz7T6j88CTgSN5bM796AkVf0kBD4zp0CCIs=
++github.com/bitrvmpd/traefik-plugin-rewrite-headers v0.0.1 h1:Se5Xd6cCMQ2+3P+VPJ6G8qaS/aWjKhLdRQh6cbof5b4=
++github.com/bitrvmpd/traefik-plugin-rewrite-headers v0.0.1/go.mod h1:MQlLbA3Gmam8WqT2vlvMzMKG37pZ71eugNKuiXgMJOk=
+ github.com/bketelsen/crypt v0.0.3-0.20200106085610-5cbc8cc4026c/go.mod h1:MKsuJmJgSg28kpZDP6UIiPt0e0Oz0kqKNGyRaWEPv84=
+ github.com/blendle/zapdriver v1.3.1 h1:C3dydBOWYRiOk+B8X9IVZ5IOe+7cl+tGOexN4QqHfpE=
+ github.com/blendle/zapdriver v1.3.1/go.mod h1:mdXfREi6u5MArG4j9fewC+FGnXaBR+T4Ox4J2u4eHCc=
+@@ -897,6 +899,12 @@ github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
+ github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+ github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1VwoXQT9A3Wy9MM3WgvqSxFWenqJduM=
+ github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
++github.com/david-garcia-garcia/traefik-geoblock v1.1.4 h1:1+WwxJL5iRwFn2mAk8Gdvej2bGp6wuqaWb1JS2upyYM=
++github.com/david-garcia-garcia/traefik-geoblock v1.1.4/go.mod h1:J+8KryjmKoQSfO+ShLr/QmEZ7XzZ4HAA1SQMd8hMlCw=
++github.com/david-garcia-garcia/traefik-modsecurity v1.7.5 h1:EpRqn5/GiyM3baLP2P6Z7yfq20tI+F8OKPO8racRP10=
++github.com/david-garcia-garcia/traefik-modsecurity v1.7.5/go.mod h1:759sQL1tVYg8oNYTOEqJlHxgkMHppa/TntwPig7KSs4=
++github.com/david-garcia-garcia/traefik-realip v1.0.0-beta.3 h1:5Wl9Yby/8Wwggr1L+CK6IwUlnn7diVmJ7gRIQFQEvPo=
++github.com/david-garcia-garcia/traefik-realip v1.0.0-beta.3/go.mod h1:QEieIyeJsQeuNgpKIjK9dowuHXhQtuofxr6St/8nWEY=
+ github.com/decred/dcrd/crypto/blake256 v1.0.0/go.mod h1:sQl2p6Y26YV+ZOcSTP6thNdn47hh8kt6rqSlvmrXFAc=
+ github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.0-20210816181553-5444fa50b93d/go.mod h1:tmAIfUFEirG/Y8jhZ9M+h36obRZAk/1fcSpXwAVlfqE=
+ github.com/deepmap/oapi-codegen v1.8.2/go.mod h1:YLgSKSDv/bZQB7N4ws6luhozi3cEdRktEqrX88CvjIw=
+@@ -1381,6 +1389,8 @@ github.com/influxdata/line-protocol v0.0.0-20200327222509-2487e7298839 h1:W9WBk7
+ github.com/influxdata/line-protocol v0.0.0-20200327222509-2487e7298839/go.mod h1:xaLFMmpvUxqXtVkUJfg9QmT88cDaCJ3ZKgdZ78oO8Qo=
+ github.com/infobloxopen/infoblox-go-client/v2 v2.11.0 h1:EofxGCNGB76HhJJby+DP6fcmLwgkU4SPbrUQqEyq/6E=
+ github.com/infobloxopen/infoblox-go-client/v2 v2.11.0/go.mod h1:EInY3nNQLnMRpx9UB7uB9u5fvS7b+VTgwqvmbp3p+Ps=
++github.com/ip2location/ip2location-go/v9 v9.7.1 h1:eXu/DqS13QE0h1Yrc9oji+6/anLD9KDf6Ulf5GdIQs8=
++github.com/ip2location/ip2location-go/v9 v9.7.1/go.mod h1:MPLnsKxwQlvd2lBNcQCsLoyzJLDBFizuO67wXXdzoyI=
+ github.com/jarcoal/httpmock v1.0.8/go.mod h1:ATjnClrvW/3tijVmpL/va5Z3aAyGvqU3gCT8nX0Txik=
+ github.com/jarcoal/httpmock v1.4.1 h1:0Ju+VCFuARfFlhVXFc2HxlcQkfB+Xq12/EotHko+x2A=
+ github.com/jarcoal/httpmock v1.4.1/go.mod h1:ftW1xULwo+j0R0JJkJIIi7UKigZUXCLLanykgjwBXL0=
+@@ -1479,6 +1489,8 @@ github.com/leodido/go-urn v1.2.0/go.mod h1:+8+nEpDfqqsY+g338gtMEUOtuK+4dEMhiQEgx
+ github.com/leodido/go-urn v1.2.1/go.mod h1:zt4jvISO2HfUBqxjfIshjdMTYS56ZS/qv49ictyFfxY=
+ github.com/leodido/go-urn v1.4.0 h1:WT9HwE9SGECu3lg4d/dIA+jxlljEa1/ffXKmRjqdmIQ=
+ github.com/leodido/go-urn v1.4.0/go.mod h1:bvxc+MVxLKB4z00jd1z+Dvzr47oO32F/QSNjSBOlFxI=
++github.com/leprosus/golang-ttl-map v1.1.7 h1:cF4AAFDDnJTFSV+/42sKLhmMluvLdRlCGS2UaifH6UM=
++github.com/leprosus/golang-ttl-map v1.1.7/go.mod h1:4QWHJPeVBbrkhOhXdhCv9IEiyj/YzkO04/iexy4vSe0=
+ github.com/lestrrat-go/backoff/v2 v2.0.8/go.mod h1:rHP/q/r9aT27n24JQLa7JhSQZCKBBOiM/uP402WwN8Y=
+ github.com/lestrrat-go/blackmagic v1.0.0/go.mod h1:TNgH//0vYSs8VXDCfkZLgIrVTTXQELZffUV0tz3MtdQ=
+ github.com/lestrrat-go/codegen v1.0.2/go.mod h1:JhJw6OQAuPEfVKUCLItpaVLumDGWQznd1VaXrBk9TdM=
+@@ -1542,6 +1554,10 @@ github.com/mattn/go-tty v0.0.3/go.mod h1:ihxohKRERHTVzN+aSVRwACLCeqIoZAWpoICkkvr
+ github.com/matttproud/golang_protobuf_extensions v1.0.1/go.mod h1:D8He9yQNgCq6Z5Ld7szi9bcBfOoFv/3dc6xSMkL2PC0=
+ github.com/maxatome/go-testdeep v1.12.0 h1:Ql7Go8Tg0C1D/uMMX59LAoYK7LffeJQ6X2T04nTH68g=
+ github.com/maxatome/go-testdeep v1.12.0/go.mod h1:lPZc/HAcJMP92l7yI6TRz1aZN5URwUBUAfUNvrclaNM=
++github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin v1.6.0 h1:I9ua1OqGqs6kWi8FAlF7ajprBDlEBrSBoBzAyauSkqc=
++github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin v1.6.0/go.mod h1:pw3CZjziP6rTRZLVgjw41gi+zPiTSRlca+FJBQPnt/c=
++github.com/maxlerebourg/simpleredis v1.0.12 h1:VsJpk2l8U9QqxOWbYnEXbrs7iSNZFm2fNmFvlxYlQNk=
++github.com/maxlerebourg/simpleredis v1.0.12/go.mod h1:lT4LX02SOsE9PxUcSrz1QW5ZnO86gPbaiYBxmtcXEls=
+ github.com/miekg/dns v1.0.14/go.mod h1:W1PPwlIAgtquWBMBEV9nkV9Cazfe8ScdGz/Lj7v3Nrg=
+ github.com/miekg/dns v1.1.26/go.mod h1:bPDLeHnStXmXAq1m/Ch/hvfNHr14JKNPMBo3VZKjuso=
+ github.com/miekg/dns v1.1.41/go.mod h1:p6aan82bvRIyn+zDIv9xYNUpwa73JcSh9BKwknJysuI=
+@@ -1859,6 +1875,8 @@ github.com/softlayer/softlayer-go v1.2.1/go.mod h1:Gz9/ktcmB7Z8EJlu+QEJJpkv8lAmn
+ github.com/softlayer/xmlrpc v0.0.0-20200409220501-5f089df7cb7e h1:3OgWYFw7jxCZPcvAg+4R8A50GZ+CCkARF10lxu2qDsQ=
+ github.com/softlayer/xmlrpc v0.0.0-20200409220501-5f089df7cb7e/go.mod h1:fKZCUVdirrxrBpwd9wb+lSoVixvpwAu8eHzbQB2tums=
+ github.com/soheilhy/cmux v0.1.4/go.mod h1:IM3LyeVVIOuxMH7sFAkER9+bJ4dT7Ms6E4xg4kGIyLM=
++github.com/solution-libre/traefik-plugin-robots-txt v0.2.2 h1:h0j8uv/lgoTJP6ktSJ2PLB0ErBMJSGm5Wzu8+nGR9yM=
++github.com/solution-libre/traefik-plugin-robots-txt v0.2.2/go.mod h1:ml5GioLE5KFkqJiIJ0CDw7P+LRgbzWW99qRT+gUrg8Q=
+ github.com/sony/gobreaker v0.4.1/go.mod h1:ZKptC7FHNvhBz7dN2LGjPVBz2sZJmc0/PkyDJOjmxWY=
+ github.com/sony/gobreaker/v2 v2.4.0 h1:g2KJRW1Ubty3+ZOcSEUN7K+REQJdN6yo6XvaML+jptg=
+ github.com/sony/gobreaker/v2 v2.4.0/go.mod h1:pTyFJgcZ3h2tdQVLZZruK2C0eoFL1fb/G83wK1ZQl+s=
+@@ -3046,6 +3064,8 @@ knative.dev/pkg v0.0.0-20251216153728-9c8140b780d1 h1:pSZ4sRKm/Kq1ec+7Yhow6jUH0F
+ knative.dev/pkg v0.0.0-20251216153728-9c8140b780d1/go.mod h1:jU9OxeX3zL4W6aHpdMjMA/B7kgkm5JQv6PGMod2Qu/M=
+ lukechampine.com/uint128 v1.1.1/go.mod h1:c4eWIwlEGaxC/+H1VguhU4PHXNWDCDMUlWdIWl2j1gk=
+ lukechampine.com/uint128 v1.2.0/go.mod h1:c4eWIwlEGaxC/+H1VguhU4PHXNWDCDMUlWdIWl2j1gk=
++lukechampine.com/uint128 v1.3.0 h1:cDdUVfRwDUDovz610ABgFD17nXD4/uDgVHl2sC3+sbo=
++lukechampine.com/uint128 v1.3.0/go.mod h1:c4eWIwlEGaxC/+H1VguhU4PHXNWDCDMUlWdIWl2j1gk=
+ modernc.org/cc/v3 v3.36.0/go.mod h1:NFUHyPn4ekoC/JHeZFfZurN6ixxawE1BnVonP/oahEI=
+ modernc.org/cc/v3 v3.36.2/go.mod h1:NFUHyPn4ekoC/JHeZFfZurN6ixxawE1BnVonP/oahEI=
+ modernc.org/cc/v3 v3.36.3/go.mod h1:NFUHyPn4ekoC/JHeZFfZurN6ixxawE1BnVonP/oahEI=
