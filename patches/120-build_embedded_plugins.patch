@@ -1,0 +1,16 @@
+diff --git a/pkg/plugins/builder.go b/pkg/plugins/builder.go
+index cee4c9497..93d14dc84 100644
+--- a/pkg/plugins/builder.go
++++ b/pkg/plugins/builder.go
+@@ -111,6 +111,11 @@ func NewBuilder(manager *Manager, plugins map[string]Descriptor, localPlugins ma
+ 
+ // Build builds a middleware plugin.
+ func (b Builder) Build(pName string, config map[string]any, middlewareName string) (Constructor, error) {
++	// Check if the plugin is embedded in the executable
++	if IsEmbeddedPlugin(pName) {
++		return BuildEmbeddedPlugin(context.Background(), pName, config, middlewareName)
++	}
++
+ 	if b.middlewareBuilders == nil {
+ 		return nil, fmt.Errorf("no plugin definitions in the static configuration: %s", pName)
+ 	}
